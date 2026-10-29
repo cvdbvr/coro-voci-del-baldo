@@ -122,6 +122,8 @@ button,select{font:inherit;color:inherit}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#141230}}
 :root[data-theme="dark"] .btn.primary{color:#141230}
+.admin-link{margin:28px 0 8px;text-align:center}
+.admin-link button{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;padding:6px}
 .btn.danger{color:var(--red);border-color:var(--red)}
 .btn.danger.armed{background:var(--red);color:#fff}
 .btn:disabled{opacity:.5;cursor:default}
@@ -220,6 +222,7 @@ button,select{font:inherit;color:inherit}
     <ol id="list"></ol>
     <p class="note" id="listNote">Caricamento del repertorio…</p>
     <div class="side-actions" id="sideActions"></div>
+    <p class="admin-link"><button type="button" id="adminBtn">Accedi come gestore</button></p>
   </nav>
 
   <article class="song" id="song" aria-live="polite">
@@ -706,7 +709,7 @@ button,select{font:inherit;color:inherit}
         location.hash = 'sc-'+id;
       } catch(e){
         save.disabled = false; save.textContent = 'Salva scaletta';
-        msg.textContent = 'Non sono riuscito a salvare. Riprova tra poco.';
+        msg.textContent = (e && e.userMsg) || 'Non sono riuscito a salvare. Riprova tra poco.';
       }
     };
     const cancel = el('a',{class:'btn',href: sc ? '#sc-'+sc.id : '#',text:'Annulla'});
@@ -719,7 +722,7 @@ button,select{font:inherit;color:inherit}
         if (!armed){ armed = true; del.classList.add('armed'); del.textContent = 'Conferma eliminazione'; setTimeout(()=>{ armed=false; del.classList.remove('armed'); del.textContent='Elimina'; }, 4000); return; }
         del.disabled = true;
         try { await db.collection('scalette').doc(sc.id).delete(); editorKey = null; tab='scalette'; history.replaceState(null,'',location.pathname+location.search); render(); }
-        catch(e){ del.disabled = false; msg.textContent = 'Non sono riuscito a eliminare la scaletta.'; }
+        catch(e){ del.disabled = false; msg.textContent = (e && e.userMsg) || 'Non sono riuscito a eliminare la scaletta.'; }
       };
       acts.append(del);
     }
@@ -829,7 +832,7 @@ button,select{font:inherit;color:inherit}
       const id = e ? e.id : ('e' + Date.now().toString(36) + Math.random().toString(36).slice(2,6));
       const body = {titolo:draft.titolo.trim(), tipo:draft.tipo, data:draft.data, ora:draft.ora||'', oraFine:draft.oraFine||'', luogo:draft.luogo.trim(), note:draft.note.trim(), scaletta:draft.scaletta||''};
       try { await db.collection('eventi').doc(id).set(body); editorKey = null; location.hash = 'ev-'+id; }
-      catch(err){ save.disabled = false; save.textContent = 'Salva impegno'; msg.textContent = 'Non sono riuscito a salvare. Riprova tra poco.'; }
+      catch(err){ save.disabled = false; save.textContent = 'Salva impegno'; msg.textContent = (err && err.userMsg) || 'Non sono riuscito a salvare. Riprova tra poco.'; }
     };
     const cancel = el('a',{class:'btn',href: e ? '#ev-'+e.id : '#',text:'Annulla'});
     cancel.onclick = () => { editorKey = null; if (!e){ setTimeout(()=>{ history.replaceState(null,'',location.pathname+location.search); render(); },0); } };
@@ -841,7 +844,7 @@ button,select{font:inherit;color:inherit}
         if (!armed){ armed = true; del.classList.add('armed'); del.textContent = 'Conferma eliminazione'; setTimeout(()=>{ armed=false; del.classList.remove('armed'); del.textContent='Elimina'; }, 4000); return; }
         del.disabled = true;
         try { await db.collection('eventi').doc(e.id).delete(); editorKey = null; history.replaceState(null,'',location.pathname+location.search); render(); }
-        catch(err){ del.disabled = false; msg.textContent = 'Non sono riuscito a eliminare l’impegno.'; }
+        catch(err){ del.disabled = false; msg.textContent = (err && err.userMsg) || 'Non sono riuscito a eliminare l’impegno.'; }
       };
       acts.append(del);
     }
@@ -987,13 +990,84 @@ button,select{font:inherit;color:inherit}
   window.addEventListener('popstate', () => { editorKey = null; render(); });
 
   // ---- Dati ----
-  fetch('dati.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+  // ---- Gestione: salvataggio su GitHub ----
+  const GH = {owner:'cvdbvr', repo:'coro-voci-del-baldo', branch:'main', path:'dati.json'};
+  const GH_API = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo;
+  let ghToken = '';
+  try { ghToken = localStorage.getItem('coro-gh-token') || ''; } catch(e){}
+  const b64enc = str => { const by = new TextEncoder().encode(str); let bin=''; for (let k=0;k<by.length;k+=0x8000) bin += String.fromCharCode.apply(null, by.subarray(k,k+0x8000)); return btoa(bin); };
+  const b64dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g,'')), c => c.charCodeAt(0)));
+  function ghErr(msg){ const e = new Error(msg); e.userMsg = msg; return e; }
+  async function gh(url, opts={}){
+    const r = await fetch(url, Object.assign({}, opts, {cache:'no-store', headers:Object.assign({'Authorization':'Bearer '+ghToken,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}, opts.headers||{})}));
+    if (r.status === 401) throw ghErr('Il token non è valido o è scaduto. Esci e accedi di nuovo con un token nuovo.');
+    if (r.status === 403 || r.status === 404) throw ghErr('Il token non ha il permesso di modificare il repository del coro.');
+    if (r.status === 409 || r.status === 422) { const e = ghErr('Qualcun altro ha appena salvato. Riprova.'); e.conflict = true; throw e; }
+    if (!r.ok) throw ghErr('GitHub non risponde ('+r.status+'). Riprova tra poco.');
+    return r.json();
+  }
+  async function ghRead(){
+    const f = await gh(GH_API+'/contents/'+GH.path+'?ref='+GH.branch);
+    return {sha:f.sha, data:JSON.parse(b64dec(f.content))};
+  }
+  async function ghChange(coll, change, label){
+    for (let tent = 0; tent < 3; tent++){
+      const {sha, data} = await ghRead();
+      data[coll] = change(Array.isArray(data[coll]) ? data[coll] : []);
+      try {
+        await gh(GH_API+'/contents/'+GH.path, {method:'PUT', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({message:label, content:b64enc(JSON.stringify(data, null, 2)+'\n'), sha, branch:GH.branch})});
+        applyData(data);
+        return;
+      } catch(e){ if (!e.conflict || tent === 2) throw e; }
+    }
+  }
+  function docRef(coll, id){
+    const nomeDi = o => (o && (o.nome || o.titolo)) || id;
+    return {
+      set: body => ghChange(coll, list => { const o = Object.assign({id}, body); const k = list.findIndex(x=>x.id===id); if (k>=0) list[k]=o; else list.push(o); return list; }, (coll==='eventi'?'Impegno: ':'Scaletta: ')+nomeDi(body)),
+      delete: () => ghChange(coll, list => list.filter(x=>x.id!==id), 'Eliminato '+(coll==='eventi'?'impegno ':'scaletta ')+id)
+    };
+  }
+  db = { collection: coll => ({ doc: id => docRef(coll, id) }) };
+
+  function applyData(d){
     songs = (d.canti||[]).map(c => Object.assign({}, c, {tracce:(c.tracce||[]).map(t => Object.assign({asset:t.file}, t))}))
       .sort((a,b) => String(a.titolo||'').localeCompare(String(b.titolo||''), 'it'));
+    if (pSong){ const ns = songById(pSong.id); if (ns) pSong = ns; }
     scalette = d.scalette || []; scaletteLoaded = true;
+    if (pCtx){ const ns = scalette.find(x=>x.id===pCtx.sc.id); if (ns) pCtx = Object.assign({}, pCtx, {sc:ns}); }
     eventi = d.eventi || []; eventiLoaded = true;
     render();
-  }).catch(() => { $('listNote').textContent = 'Non riesco a caricare il repertorio (dati.json). Ricarica la pagina.'; });
+  }
+  function setAdmin(v){
+    isAdmin = v;
+    $('adminBtn').textContent = v ? 'Esci dalla gestione' : 'Accedi come gestore';
+    renderList(); const k = parseHash().kind; if (k==='edit' || k==='sc' || k==='ev' || k==='evedit') { editorKey = null; render(); }
+  }
+  $('adminBtn').onclick = async () => {
+    if (isAdmin){
+      if (!confirm('Vuoi uscire dalla gestione su questo dispositivo? Il token verrà dimenticato.')) return;
+      try { localStorage.removeItem('coro-gh-token'); } catch(e){}
+      ghToken = ''; setAdmin(false); return;
+    }
+    const t = (prompt('Incolla il token di GitHub (inizia con github_pat_):') || '').trim();
+    if (!t) return;
+    ghToken = t;
+    try {
+      const r = await gh(GH_API);
+      if (!r.permissions || !r.permissions.push) throw ghErr('Il token non ha il permesso di modificare il repository del coro.');
+      try { localStorage.setItem('coro-gh-token', t); } catch(e){}
+      setAdmin(true);
+      ghRead().then(x => applyData(x.data)).catch(()=>{});
+    } catch(e){ ghToken = ''; alert((e && e.userMsg) || 'Non riesco a verificare il token. Controlla la connessione e riprova.'); }
+  };
+
+  // ---- Dati ----
+  const loadPublic = () => fetch('dati.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  (ghToken ? ghRead().then(x => x.data).catch(() => loadPublic()) : loadPublic()).then(applyData)
+    .catch(() => { $('listNote').textContent = 'Non riesco a caricare il repertorio (dati.json). Ricarica la pagina.'; });
+  if (ghToken) setAdmin(true);
 })();
 </script>
 </body>
