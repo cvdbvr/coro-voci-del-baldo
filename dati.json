@@ -1,0 +1,286 @@
+{
+  "canti": [
+    {
+      "id": "a-diosa",
+      "titolo": "A Diosa",
+      "sottotitolo": "Margutti",
+      "pdf": "spartiti/a-diosa.pdf",
+      "pagine": [
+        "pagine/a-diosa/p-1.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/a-diosa-1.mp3",
+          "nome": "Registrazione",
+          "durata": 248
+        }
+      ]
+    },
+    {
+      "id": "come-un-dono",
+      "titolo": "Come un dono",
+      "sottotitolo": "Gianfranco Salatin",
+      "pdf": "spartiti/come-un-dono.pdf",
+      "pagine": [
+        "pagine/come-un-dono/p-1.jpg",
+        "pagine/come-un-dono/p-2.jpg",
+        "pagine/come-un-dono/p-3.jpg",
+        "pagine/come-un-dono/p-4.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/come-un-dono-1.mp3",
+          "nome": "Registrazione",
+          "durata": 121
+        }
+      ]
+    },
+    {
+      "id": "fiabe",
+      "titolo": "Fiabe",
+      "sottotitolo": "Maiero",
+      "pdf": "spartiti/fiabe.pdf",
+      "pagine": [
+        "pagine/fiabe/p-1.jpg",
+        "pagine/fiabe/p-2.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/fiabe-1.mp3",
+          "nome": "Registrazione",
+          "durata": 338
+        }
+      ]
+    },
+    {
+      "id": "gaudete",
+      "titolo": "Gaudete!",
+      "sottotitolo": "Piæ Cantiones 1582, per coro maschile, M. Lanaro",
+      "pdf": "spartiti/gaudete.pdf",
+      "pagine": [
+        "pagine/gaudete/p-1.jpg"
+      ],
+      "tracce": []
+    },
+    {
+      "id": "gli-occhi-di-caterina",
+      "titolo": "Gli occhi di Caterina",
+      "sottotitolo": "Cobbe",
+      "pdf": "spartiti/gli-occhi-di-caterina.pdf",
+      "pagine": [
+        "pagine/gli-occhi-di-caterina/p-01.jpg",
+        "pagine/gli-occhi-di-caterina/p-02.jpg",
+        "pagine/gli-occhi-di-caterina/p-03.jpg",
+        "pagine/gli-occhi-di-caterina/p-04.jpg",
+        "pagine/gli-occhi-di-caterina/p-05.jpg",
+        "pagine/gli-occhi-di-caterina/p-06.jpg",
+        "pagine/gli-occhi-di-caterina/p-07.jpg",
+        "pagine/gli-occhi-di-caterina/p-08.jpg",
+        "pagine/gli-occhi-di-caterina/p-09.jpg",
+        "pagine/gli-occhi-di-caterina/p-10.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/gli-occhi-di-caterina-1.mp3",
+          "nome": "Registrazione",
+          "durata": 143
+        }
+      ]
+    },
+    {
+      "id": "la-ballata-del-soldato",
+      "titolo": "La ballata del soldato",
+      "sottotitolo": "Donadoni",
+      "pdf": "spartiti/la-ballata-del-soldato.pdf",
+      "pagine": [
+        "pagine/la-ballata-del-soldato/p-1.jpg",
+        "pagine/la-ballata-del-soldato/p-2.jpg",
+        "pagine/la-ballata-del-soldato/p-3.jpg",
+        "pagine/la-ballata-del-soldato/p-4.jpg",
+        "pagine/la-ballata-del-soldato/p-5.jpg",
+        "pagine/la-ballata-del-soldato/p-6.jpg",
+        "pagine/la-ballata-del-soldato/p-7.jpg",
+        "pagine/la-ballata-del-soldato/p-8.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/la-ballata-del-soldato-1.mp3",
+          "nome": "Registrazione",
+          "durata": 104
+        }
+      ]
+    },
+    {
+      "id": "la-capanna-di-gesu",
+      "titolo": "La capanna di Gesù",
+      "sottotitolo": "Canto popolare natalizio spagnolo, testo di Italo Varner, arm. Camillo Moser",
+      "pdf": "spartiti/la-capanna-di-gesu.pdf",
+      "pagine": [
+        "pagine/la-capanna-di-gesu/p-1.jpg",
+        "pagine/la-capanna-di-gesu/p-2.jpg",
+        "pagine/la-capanna-di-gesu/p-3.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/la-capanna-di-gesu-1.mp3",
+          "nome": "Tenori 2",
+          "durata": 82
+        },
+        {
+          "file": "audio/la-capanna-di-gesu-2.mp3",
+          "nome": "Tenori 2 (1)",
+          "durata": 138
+        },
+        {
+          "file": "audio/la-capanna-di-gesu-3.mp3",
+          "nome": "Tenori 2 (2)",
+          "durata": 155
+        },
+        {
+          "file": "audio/la-capanna-di-gesu-4.mp3",
+          "nome": "Tenori 2, finale",
+          "durata": 113
+        }
+      ]
+    },
+    {
+      "id": "la-montanara",
+      "titolo": "La Montanara",
+      "sottotitolo": "Pigarelli",
+      "pdf": "spartiti/la-montanara.pdf",
+      "pagine": [
+        "pagine/la-montanara/p-1.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/la-montanara-1.mp3",
+          "nome": "Registrazione",
+          "durata": 288
+        }
+      ]
+    },
+    {
+      "id": "montagnes-valdotaines",
+      "titolo": "Montagnes Valdôtaines",
+      "sottotitolo": "Canto valdostano, armonizzazione di Gianni Malatesta",
+      "pdf": "spartiti/montagnes-valdotaines.pdf",
+      "pagine": [
+        "pagine/montagnes-valdotaines/p-1.jpg",
+        "pagine/montagnes-valdotaines/p-2.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/montagnes-valdotaines-1.mp3",
+          "nome": "Tenori 2",
+          "durata": 281
+        }
+      ]
+    },
+    {
+      "id": "nanneddu-meu",
+      "titolo": "Nanneddu meu",
+      "sottotitolo": "Puddu",
+      "pdf": "spartiti/nanneddu-meu.pdf",
+      "pagine": [
+        "pagine/nanneddu-meu/p-1.jpg",
+        "pagine/nanneddu-meu/p-2.jpg",
+        "pagine/nanneddu-meu/p-3.jpg",
+        "pagine/nanneddu-meu/p-4.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/nanneddu-meu-1.mp3",
+          "nome": "Registrazione",
+          "durata": 236
+        }
+      ]
+    },
+    {
+      "id": "rapsodia-popolare",
+      "titolo": "Rapsodia popolare",
+      "sottotitolo": "Lanaro",
+      "pdf": "spartiti/rapsodia-popolare.pdf",
+      "pagine": [
+        "pagine/rapsodia-popolare/p-1.jpg",
+        "pagine/rapsodia-popolare/p-2.jpg",
+        "pagine/rapsodia-popolare/p-3.jpg",
+        "pagine/rapsodia-popolare/p-4.jpg",
+        "pagine/rapsodia-popolare/p-5.jpg",
+        "pagine/rapsodia-popolare/p-6.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/rapsodia-popolare-1.mp3",
+          "nome": "Traccia 1",
+          "durata": 82
+        },
+        {
+          "file": "audio/rapsodia-popolare-2.mp3",
+          "nome": "Traccia 2",
+          "durata": 191
+        },
+        {
+          "file": "audio/rapsodia-popolare-3.mp3",
+          "nome": "Traccia 3",
+          "durata": 244
+        }
+      ]
+    },
+    {
+      "id": "una-benedizione-irlandese",
+      "titolo": "Una benedizione irlandese",
+      "sottotitolo": "Zandonà",
+      "pdf": "spartiti/una-benedizione-irlandese.pdf",
+      "pagine": [
+        "pagine/una-benedizione-irlandese/p-1.jpg"
+      ],
+      "tracce": [
+        {
+          "file": "audio/una-benedizione-irlandese-1.mp3",
+          "nome": "Tenori 2",
+          "durata": 154
+        }
+      ]
+    }
+  ],
+  "scalette": [
+    {
+      "id": "concerto-tregnago",
+      "brani": [
+        {
+          "canto": "una-benedizione-irlandese",
+          "traccia": 0
+        },
+        {
+          "canto": "come-un-dono",
+          "traccia": 0
+        },
+        {
+          "canto": "fiabe",
+          "traccia": 0
+        },
+        {
+          "canto": "gli-occhi-di-caterina",
+          "traccia": 0
+        },
+        {
+          "canto": "rapsodia-popolare",
+          "traccia": 0
+        },
+        {
+          "canto": "nanneddu-meu",
+          "traccia": 0
+        },
+        {
+          "canto": "la-ballata-del-soldato",
+          "traccia": 0
+        }
+      ],
+      "data": "2026-11-14",
+      "nome": "Concerto di Tregnago",
+      "note": "",
+      "tipo": "Concerto"
+    }
+  ],
+  "eventi": []
+}

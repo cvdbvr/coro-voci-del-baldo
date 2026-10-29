@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I Canti del Coro Voci del Baldo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F4F6; --surface:#FFFFFF; --ink:#121040; --muted:#5F5E66;
+  --line:#D9D9DE; --accent:#09018B; --accent-soft:#E6E5F4; --staff:#9C9A9B;
+  --red:#D9001D; --paper:#FFFFFF;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0E1F; --surface:#1A1930; --ink:#ECEBF4; --muted:#A3A2B2;
+    --line:#2E2C47; --accent:#8C86FF; --accent-soft:#25234A; --staff:#4C4A5E;
+    --red:#FF4D5E; --paper:#EDEDEA; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0E1F; --surface:#1A1930; --ink:#ECEBF4; --muted:#A3A2B2;
+  --line:#2E2C47; --accent:#8C86FF; --accent-soft:#25234A; --staff:#4C4A5E;
+  --red:#FF4D5E; --paper:#EDEDEA; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Alegreya Sans",-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Testata: un pentagramma che diventa una cresta di montagne */
+.masthead{padding:28px 20px 8px;max-width:1180px;margin:0 auto}
+.ridge{display:block;width:100%;height:56px;color:var(--staff)}
+.brand{display:flex;align-items:center;gap:16px;margin-top:6px}
+.brand img{height:64px;width:auto;flex:none;border-radius:10px}
+.masthead h1{font-family:Alegreya,Georgia,serif;font-weight:700;font-size:clamp(26px,6vw,40px);
+  line-height:1.1;margin:0;letter-spacing:-.01em;color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .masthead h1{color:var(--ink)}}
+:root[data-theme="dark"] .masthead h1{color:var(--ink)}
+.masthead h1 + p{margin-top:2px}
+.masthead p{margin:4px 0 0;color:var(--muted)}
+
+.layout{max-width:1180px;margin:0 auto;padding:12px 20px 160px;display:grid;gap:28px}
+@media (min-width:900px){
+  .layout{grid-template-columns:280px 1fr;align-items:start}
+  .rep{position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}
+  .back{display:none}
+}
+@media (max-width:899px){
+  body.in-song .rep{display:none}
+  body:not(.in-song) .song{display:none}
+}
+
+/* Elenco dei canti */
+.rep h2{font-family:Alegreya,Georgia,serif;font-weight:500;font-style:italic;font-size:19px;margin:0 0 8px;color:var(--muted)}
+.rep ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rep li{border-bottom:1px solid var(--line)}
+.rep a{display:block;padding:12px 4px 12px 14px;text-decoration:none;color:inherit;border-left:3px solid transparent}
+.rep a:hover{background:var(--surface)}
+.rep a[aria-current="page"]{border-left-color:var(--red);background:var(--surface)}
+.rep .t{font-family:Alegreya,Georgia,serif;font-weight:700;font-size:19px;display:block}
+.rep .s{color:var(--muted);font-size:15px}
+.note{color:var(--muted);padding:14px 0}
+
+/* Scheda del canto */
+.back{display:inline-block;background:none;border:0;padding:6px 0;color:var(--accent);cursor:pointer;font-weight:500;text-decoration:none}
+.song h2{font-family:Alegreya,Georgia,serif;font-weight:700;font-size:clamp(30px,7vw,48px);line-height:1.05;margin:6px 0 4px}
+.song .sub{color:var(--muted);margin:0}
+.parts{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 6px}
+.parts button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500}
+.parts button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.parts-label{display:block;font-size:15px;color:var(--muted);margin:18px 0 6px}
+.track-sel{width:100%;max-width:360px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font-weight:500;font-size:17px;cursor:pointer}
+
+.score-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 10px;flex-wrap:wrap}
+.score-head h3{font-family:Alegreya,Georgia,serif;font-style:italic;font-weight:500;font-size:21px;margin:0}
+.tools{display:flex;gap:6px;align-items:center}
+.tools button,.tools a{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 12px;cursor:pointer;text-decoration:none;color:inherit;font-size:15px}
+.tools button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.pages{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:4px}
+.pages img{display:block;width:calc(var(--zoom,1) * 100%);max-width:none;height:auto;background:var(--paper);
+  margin:0 0 14px;box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
+
+/* Lettore fisso in basso */
+.player{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.player[hidden]{display:none}
+.player-in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center}
+.now{grid-column:1/-1;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now b{color:var(--ink);font-weight:700}
+.play{width:52px;height:52px;border-radius:50%;border:0;background:var(--accent);color:#fff;cursor:pointer;display:grid;place-items:center}
+:root[data-theme="dark"] .play{color:#1A1A1A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .play{color:#1A1A1A}}
+.play svg{width:22px;height:22px}
+.track{display:grid;gap:2px}
+.track input{width:100%;accent-color:var(--accent);margin:0}
+.time{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ctrl{display:flex;gap:4px;align-items:center}
+.ctrl button,.ctrl select{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:14px}
+.ctrl .loop{display:inline-flex;align-items:center;gap:4px}
+.ctrl .loop svg{width:18px;height:18px}
+.ctrl .loop[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+@media (max-width:520px){
+  .player-in{grid-template-columns:auto 1fr}
+  .ctrl{grid-column:1/-1;justify-content:space-between}
+}
+
+/* Schede Canti / Scalette */
+.tabs{display:flex;gap:4px;margin:0 0 10px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:8px 12px 7px;cursor:pointer;font-family:Alegreya,Georgia,serif;font-size:19px;color:var(--muted);margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red);font-weight:700}
+.side-actions{margin:12px 0 0}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:500;text-decoration:none;color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#141230}}
+:root[data-theme="dark"] .btn.primary{color:#141230}
+.btn.danger{color:var(--red);border-color:var(--red)}
+.btn.danger.armed{background:var(--red);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.kind{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--red);margin-top:8px}
+.setnote{white-space:pre-line;margin:10px 0 0}
+.setlist{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line);counter-reset:n}
+.setlist li{border-bottom:1px solid var(--line)}
+.setlist a{display:grid;grid-template-columns:2.2em 1fr;gap:2px 10px;padding:12px 4px;text-decoration:none;color:inherit}
+.setlist a:hover{background:var(--surface)}
+.setlist .num{grid-row:span 2;font-family:Alegreya,Georgia,serif;font-size:22px;color:var(--accent);text-align:right;line-height:1.2}
+.setlist .t{font-family:Alegreya,Georgia,serif;font-weight:700;font-size:19px}
+.setlist .s{color:var(--muted);font-size:15px}
+@media (min-width:900px){.back.keep{display:inline-block}}
+.setbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:10px;padding:10px 12px;margin:4px 0 14px}
+.setbar .where{font-size:15px;color:var(--muted)}
+.setbar .where b{color:var(--ink)}
+.setbar .nav{display:flex;gap:6px}
+.setbar .nav .btn{padding:6px 12px}
+.auto{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted);margin:2px 0 0}
+.auto input{accent-color:var(--accent);width:18px;height:18px}
+/* Editor */
+.form{display:grid;gap:14px;margin-top:16px;max-width:640px}
+.form label{display:grid;gap:4px;font-size:15px;color:var(--muted)}
+.form input,.form select,.form textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+.form textarea{min-height:70px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.items{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.items li{display:grid;grid-template-columns:1.8em 1fr auto;gap:6px 10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.items .num{color:var(--accent);font-family:Alegreya,Georgia,serif;font-size:19px;text-align:right}
+.items .t{font-weight:700}
+.items select{grid-column:2/3;font-size:15px;padding:6px 8px}
+.items .mv{display:flex;gap:4px;grid-row:span 2;align-self:start}
+.items .mv button{border:1px solid var(--line);background:var(--bg);border-radius:8px;width:34px;height:34px;cursor:pointer;color:var(--ink)}
+.items .mv button:disabled{opacity:.35;cursor:default}
+.add{display:flex;gap:8px}
+.add select{flex:1}
+.err{color:var(--red);font-weight:500}
+
+
+.seekwrap{position:relative;display:flex;align-items:center}
+.abband{position:absolute;top:50%;height:14px;transform:translateY(-50%);background:var(--red);opacity:.28;border-radius:3px;pointer-events:none}
+.ctrl .ab{min-width:34px;font-weight:700}
+.ctrl .ab[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.ctrl .ab.nope{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.now a{color:inherit;text-decoration:none}
+.now .abinfo{color:var(--red);font-weight:700;font-variant-numeric:tabular-nums}
+.search{margin:0 0 10px}
+.search input{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.listen{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 0}
+.listen .s{color:var(--muted);font-size:15px}
+.setlist a[aria-current="true"]{background:var(--accent-soft)}
+
+.tabs button{padding:8px 10px 7px}
+.rep .group{border-bottom:0;padding:16px 0 4px;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.rep .past a .t{color:var(--muted)}
+.evdate{display:inline-block;min-width:2.6em;text-align:center;font-family:Alegreya,Georgia,serif;font-weight:700;color:var(--red);margin-right:8px}
+.facts{display:grid;gap:8px;margin:16px 0 0;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.facts div{display:grid;grid-template-columns:5.5em 1fr;gap:10px}
+.facts dt,.facts .k{color:var(--muted);font-size:15px}
+.facts a{color:var(--accent);font-weight:500}
+.next{margin:18px 0 0;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:10px;background:var(--surface)}
+.next .k{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--red)}
+.next a{display:block;text-decoration:none;color:inherit;margin-top:4px}
+.next .t{font-family:Alegreya,Georgia,serif;font-weight:700;font-size:21px;display:block}
+.next .s{color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.parts button,.rep a{transition:background .15s,color .15s}}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <svg class="ridge" viewBox="0 -11 600 67" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke">
+      <path id="r0" d="M0 52 L45 49 L198 24 L214 38 L455 0 L536 30 L600 34"/>
+      <use href="#r0" y="-4" transform="translate(0,4)"/>
+    </g>
+  </svg>
+  <div class="brand">
+    <img src="img/logo.png" alt="Logo del Coro Voci del Baldo">
+    <div>
+      <h1>I Canti del Coro Voci del Baldo</h1>
+      <p>Ascolta le parti e segui lo spartito.</p>
+    </div>
+  </div>
+</header>
+
+<main class="layout">
+  <nav class="rep" aria-label="Repertorio">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tabCanti" aria-selected="true">Canti</button>
+      <button type="button" role="tab" id="tabScalette" aria-selected="false">Scalette</button>
+      <button type="button" role="tab" id="tabCal" aria-selected="false">Calendario</button>
+    </div>
+    <div id="searchBox" class="search"><input type="search" id="q" placeholder="Cerca un canto" aria-label="Cerca un canto" autocomplete="off"></div>
+    <ol id="list"></ol>
+    <p class="note" id="listNote">Caricamento del repertorio…</p>
+    <div class="side-actions" id="sideActions"></div>
+  </nav>
+
+  <article class="song" id="song" aria-live="polite">
+    <p class="note">Scegli un canto dall’elenco.</p>
+  </article>
+</main>
+
+<div class="player" id="player" hidden>
+  <div class="player-in">
+    <div class="now" id="now"></div>
+    <button class="play" id="playBtn" aria-label="Riproduci">
+      <svg viewBox="0 0 24 24" id="playIcon"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg>
+    </button>
+    <div class="track">
+      <div class="seekwrap"><div class="abband" id="abBand" hidden></div><input type="range" id="seek" min="0" max="0" step="0.1" value="0" aria-label="Posizione"></div>
+      <div class="time"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+    </div>
+    <div class="ctrl">
+      <button id="back5" aria-label="Indietro di 5 secondi">−5 s</button>
+      <button id="fwd5" aria-label="Avanti di 5 secondi">+5 s</button>
+      <button id="loopBtn" class="loop" aria-pressed="false" title="Ripeti la traccia">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg>
+      </button>
+      <button id="abA" class="ab" aria-pressed="false" title="Segna l’inizio del passaggio da ripetere">A</button>
+      <button id="abB" class="ab" aria-pressed="false" title="Segna la fine e ripeti il passaggio">B</button>
+      <select id="rate" aria-label="Velocità">
+        <option value="0.5">0,5×</option>
+        <option value="0.75">0,75×</option>
+        <option value="0.9">0,9×</option>
+        <option value="1" selected>1×</option>
+      </select>
+    </div>
+  </div>
+</div>
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+(function(){
+  // Disegna il pentagramma-cresta: 5 linee parallele
+  const g = document.querySelector('.ridge g');
+  const base = document.getElementById('r0');
+  const u0 = g.querySelector('use'); if (u0) u0.remove();
+  for (let i=1;i<5;i++){ const c=base.cloneNode(); c.removeAttribute('id'); c.setAttribute('transform',`translate(0,${-i*2.2})`); c.style.opacity=String(1-i*0.12); g.appendChild(c); }
+
+  const $ = id => document.getElementById(id);
+  const audio = $('audio');
+  let songs = [];          // [{id, ...data}]
+  let scalette = [];       // [{id, nome, tipo, data, note, brani:[{canto, traccia}]}]
+  let scaletteLoaded = false;
+  let eventi = [];        // [{id, titolo, tipo, data, ora, oraFine, luogo, note, scaletta}]
+  let eventiLoaded = false;
+  let db = null, isAdmin = false;
+
+  // Cosa è aperto nella pagina
+  let current = null, ctx = null, currentKey = null, viewTrack = 0;
+  // Cosa è caricato nel lettore
+  let pSong = null, pCtx = null, pTrack = 0;
+  let autoplayNext = false;
+  let tab = 'canti';
+  let query = '';
+  let zoom = 1, autoAdvance = true;
+  try { zoom = Number(localStorage.getItem('coro-zoom')) || 1; } catch(e){}
+  try { const r = localStorage.getItem('coro-rate'); if (r) $('rate').value = r; } catch(e){}
+  try { autoAdvance = localStorage.getItem('coro-auto') !== '0'; } catch(e){}
+
+  const blob = p => encodeURI(p);
+  function saveFile(href, filename){ const a = document.createElement('a'); a.href = href; a.download = filename; document.body.append(a); a.click(); a.remove(); }
+  const fmt = s => { if (!isFinite(s)) return '0:00'; s=Math.floor(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+  const el = (tag, attrs={}, ...kids) => { const n=document.createElement(tag); for (const [k,v] of Object.entries(attrs)){ if(k==='text') n.textContent=v; else n.setAttribute(k,v);} kids.forEach(k=>n.append(k)); return n; };
+  const songById = id => songs.find(s=>s.id===id);
+  const tracksOf = s => (s && Array.isArray(s.tracce)) ? s.tracce : [];
+  const brani = sc => Array.isArray(sc.brani) ? sc.brani : [];
+  const norm = t => String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const isPlaying = () => !audio.paused && !audio.ended;
+
+  // ---- Durate ----
+  const probed = new Map();   // asset -> secondi (per tracce senza durata salvata)
+  const probing = new Set();
+  function durOf(t){
+    if (!t) return null;
+    if (typeof t.durata === 'number') return t.durata;
+    if (probed.has(t.asset)) return probed.get(t.asset);
+    if (!probing.has(t.asset) && probing.size < 4){
+      probing.add(t.asset);
+      const a = new Audio(); a.preload = 'metadata';
+      a.onloadedmetadata = () => { probed.set(t.asset, a.duration); probing.delete(t.asset); a.removeAttribute('src'); refreshLists(); };
+      a.onerror = () => { probing.delete(t.asset); };
+      a.src = blob(t.asset);
+    }
+    return null;
+  }
+  let refreshTimer = 0;
+  function refreshLists(){ clearTimeout(refreshTimer); refreshTimer = setTimeout(()=>{ renderList(); const r=parseHash(); if (r.kind==='sc'){ const sc=scalette.find(x=>x.id===r.id); if (sc) renderScaletta(sc, true); } }, 150); }
+  const fmtMin = s => { const m = Math.round(s/60); return m < 60 ? m+' min' : Math.floor(m/60)+' h '+String(m%60).padStart(2,'0')+' min'; };
+  function itemTrack(item){ const tr = tracksOf(songById(item.canto)); if (!tr.length) return null; return tr[item.traccia] ? tr[item.traccia] : tr[0]; }
+  function setDuration(sc){
+    let tot = 0, missing = 0, any = false;
+    for (const it of brani(sc)){ const t = itemTrack(it); if (!t) continue; any = true; const d = durOf(t); if (d==null) missing++; else tot += d; }
+    return {tot, missing, any};
+  }
+
+  function fmtDate(d){
+    if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return '';
+    const [y,m,dd] = d.split('-').map(Number);
+    return new Date(y, m-1, dd).toLocaleDateString('it-IT',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  }
+  const today = () => { const t=new Date(); return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); };
+  function sortScalette(list){
+    const t = today();
+    const fut = list.filter(x=>!x.data || x.data>=t).sort((a,b)=>(a.data||'9999').localeCompare(b.data||'9999'));
+    const past = list.filter(x=>x.data && x.data<t).sort((a,b)=>b.data.localeCompare(a.data));
+    return fut.concat(past);
+  }
+  function evSort(a,b){ return ((a.data||'')+(a.ora||'')).localeCompare((b.data||'')+(b.ora||'')); }
+  function evWhen(e, long){
+    const d = fmtDate(e.data);
+    const h = e.ora ? (e.oraFine ? `, ore ${e.ora}–${e.oraFine}` : `, ore ${e.ora}`) : '';
+    return (long ? d : d.replace(/^\S+\s/, '')) + h;
+  }
+  function shortDay(d){ const [y,m,dd]=d.split('-').map(Number); const dt=new Date(y,m-1,dd); return dt.toLocaleDateString('it-IT',{day:'numeric'}) + ' ' + dt.toLocaleDateString('it-IT',{month:'short'}).replace('.',''); }
+  function upcoming(){ const t=today(); return eventi.filter(e=>e.data && e.data>=t).sort(evSort); }
+
+  function trackLabel(item){
+    const s = songById(item.canto);
+    if (!s) return 'Canto non più nel repertorio';
+    const t = itemTrack(item);
+    if (!t) return 'Solo spartito';
+    const d = durOf(t);
+    return (t.nome || 'Registrazione') + (d!=null ? ', '+fmt(d) : '');
+  }
+  function songInfo(s){
+    const tr = tracksOf(s);
+    let extra = '';
+    if (!tr.length) extra = 'solo spartito';
+    else if (tr.length === 1){ const d = durOf(tr[0]); extra = d!=null ? fmt(d) : ''; }
+    else extra = tr.length + ' tracce';
+    return [s.sottotitolo, extra].filter(Boolean).join(', ');
+  }
+
+  // ---- Percorso (hash) ----
+  function parseHash(){
+    const h = location.hash.slice(1);
+    if (!h) return {kind:'home'};
+    if (h === 'sc-nuova') return {kind:'edit', id:null};
+    if (h === 'ev-nuovo') return {kind:'evedit', id:null};
+    const me = h.match(/^ev-([A-Za-z0-9_-]+)(~edit)?$/);
+    if (me) return {kind: me[2] ? 'evedit' : 'ev', id: me[1]};
+    const m = h.match(/^sc-([A-Za-z0-9_-]+)(?:~(edit|\d+))?$/);
+    if (m){
+      if (m[2]==='edit') return {kind:'edit', id:m[1]};
+      if (m[2]) return {kind:'scsong', id:m[1], n:Number(m[2])};
+      return {kind:'sc', id:m[1]};
+    }
+    return {kind:'song', id:h};
+  }
+  const hashFor = (song, c) => c ? '#sc-'+c.sc.id+'~'+c.n : '#'+song.id;
+
+  // ---- Barra laterale ----
+  function setTab(t){
+    tab = t;
+    $('tabCanti').setAttribute('aria-selected', String(t==='canti'));
+    $('tabScalette').setAttribute('aria-selected', String(t==='scalette'));
+    $('tabCal').setAttribute('aria-selected', String(t==='calendario'));
+    $('searchBox').hidden = t !== 'canti';
+    renderList();
+  }
+  $('tabCanti').onclick = () => setTab('canti');
+  $('tabScalette').onclick = () => setTab('scalette');
+  $('tabCal').onclick = () => setTab('calendario');
+  $('q').addEventListener('input', e => { query = e.target.value; renderList(); });
+
+  function renderList(){
+    const list = $('list'); list.replaceChildren();
+    const r = parseHash();
+    const actions = $('sideActions'); actions.replaceChildren();
+    if (tab === 'canti'){
+      const q = norm(query.trim());
+      const shown = q ? songs.filter(s => norm(s.titolo+' '+(s.sottotitolo||'')).includes(q)) : songs;
+      $('listNote').hidden = shown.length > 0;
+      if (!songs.length) $('listNote').textContent = db ? 'Il repertorio è vuoto.' : $('listNote').textContent;
+      else if (!shown.length) $('listNote').textContent = 'Nessun canto corrisponde alla ricerca.';
+      for (const s of shown){
+        const a = el('a', {href:'#'+s.id});
+        a.append(el('span',{class:'t',text:s.titolo||s.id}), el('span',{class:'s',text:songInfo(s)}));
+        if (r.kind==='song' && r.id===s.id) a.setAttribute('aria-current','page');
+        list.append(el('li',{},a));
+      }
+    } else if (tab === 'calendario'){
+      const up = upcoming();
+      const t = today();
+      const past = eventi.filter(e=>e.data && e.data<t).sort(evSort).reverse().slice(0,10);
+      $('listNote').hidden = up.length + past.length > 0;
+      $('listNote').textContent = 'Nessun impegno in calendario.';
+      let lastMonth = '';
+      const addEv = (e, cls) => {
+        const a = el('a',{href:'#ev-'+e.id});
+        a.append(el('span',{class:'t'}, el('span',{class:'evdate',text:e.data?shortDay(e.data):''}), document.createTextNode(e.titolo||'Impegno')));
+        a.append(el('span',{class:'s',text:[e.tipo, e.ora ? 'ore '+e.ora : '', e.luogo].filter(Boolean).join(', ')}));
+        if ((r.kind==='ev'||r.kind==='evedit') && r.id===e.id) a.setAttribute('aria-current','page');
+        list.append(el('li',cls?{class:cls}:{},a));
+      };
+      for (const e of up){
+        const [y,m] = e.data.split('-').map(Number);
+        const month = new Date(y,m-1,1).toLocaleDateString('it-IT',{month:'long',year:'numeric'});
+        if (month !== lastMonth){ list.append(el('li',{class:'group',text:month})); lastMonth = month; }
+        addEv(e);
+      }
+      if (!up.length && past.length) list.append(el('li',{class:'group',text:'Nessun impegno in arrivo'}));
+      if (past.length){ list.append(el('li',{class:'group',text:'Passati'})); past.forEach(e=>addEv(e,'past')); }
+      if (isAdmin) actions.append(el('a',{class:'btn primary',href:'#ev-nuovo',text:'+ Nuovo impegno'}));
+    } else {
+      $('listNote').hidden = scalette.length > 0;
+      $('listNote').textContent = 'Nessuna scaletta per ora.';
+      for (const sc of sortScalette(scalette)){
+        const a = el('a', {href:'#sc-'+sc.id});
+        const n = brani(sc).length;
+        const d = setDuration(sc);
+        const bits = [sc.tipo, sc.data ? fmtDate(sc.data) : '', n + (n===1?' brano':' brani') + (d.any && d.tot ? ', '+(d.missing?'circa ':'')+fmtMin(d.tot) : '')].filter(Boolean);
+        a.append(el('span',{class:'t',text:sc.nome||'Scaletta'}), el('span',{class:'s',text:bits.join(', ')}));
+        if ((r.kind==='sc'||r.kind==='scsong'||r.kind==='edit') && r.id===sc.id) a.setAttribute('aria-current','page');
+        list.append(el('li',{},a));
+      }
+      if (isAdmin) actions.append(el('a',{class:'btn primary',href:'#sc-nuova',text:'+ Nuova scaletta'}));
+    }
+  }
+
+  // ---- Vista principale ----
+  function render(){
+    const r = parseHash();
+    if (r.kind==='sc' || r.kind==='scsong' || r.kind==='edit'){ if (tab!=='scalette') setTab('scalette'); }
+    else if (r.kind==='song'){ if (tab!=='canti') setTab('canti'); }
+    else if (r.kind==='ev' || r.kind==='evedit'){ if (tab!=='calendario') setTab('calendario'); }
+    document.body.classList.toggle('in-song', r.kind!=='home');
+    if (r.kind==='song'){
+      const s = songById(r.id);
+      if (!s) return showEmpty(songs.length ? 'Questo canto non è nel repertorio.' : '');
+      return renderSong(s, null);
+    }
+    if (r.kind==='sc' || r.kind==='scsong' || (r.kind==='edit' && r.id)){
+      const sc = scalette.find(x=>x.id===r.id);
+      if (!sc) return showEmpty(scaletteLoaded ? 'Questa scaletta non esiste più.' : 'Caricamento…');
+      if (r.kind==='sc') return renderScaletta(sc);
+      if (r.kind==='edit') return renderEditor(sc);
+      const item = brani(sc)[r.n-1];
+      if (!item) return renderScaletta(sc);
+      const s = songById(item.canto);
+      if (!s) return showEmpty('Questo canto non è più nel repertorio.');
+      return renderSong(s, {sc, n:r.n, item});
+    }
+    if (r.kind==='edit') return renderEditor(null);
+    if (r.kind==='ev' || r.kind==='evedit'){
+      if (!r.id) return renderEvEditor(null);
+      const e = eventi.find(x=>x.id===r.id);
+      if (!e) return showEmpty(eventiLoaded ? 'Questo impegno non esiste più.' : 'Caricamento…');
+      return r.kind==='ev' ? renderEvento(e) : renderEvEditor(e);
+    }
+    if (tab==='calendario') return showEmpty('Scegli un impegno dall’elenco.');
+    showEmpty(tab==='scalette' ? 'Scegli una scaletta dall’elenco.' : 'Scegli un canto dall’elenco.');
+  }
+
+  function backButton(){
+    const r = parseHash();
+    if (r.kind==='scsong' || (r.kind==='edit' && r.id)) return el('a',{class:'back keep',href:'#sc-'+r.id,text:'← Torna alla scaletta'});
+    if (r.kind==='evedit' && r.id) return el('a',{class:'back keep',href:'#ev-'+r.id,text:'← Torna all’impegno'});
+    const b = el('a',{class:'back',href:'#',text: tab==='scalette' ? '← Tutte le scalette' : tab==='calendario' ? '← Calendario' : '← Tutti i canti'});
+    b.onclick = (e) => { e.preventDefault(); history.pushState(null,'',location.pathname+location.search); render(); };
+    return b;
+  }
+  function leave(){ currentKey = null; current = null; ctx = null; }
+  function showEmpty(msg){
+    leave();
+    const nodes = [el('p',{class:'note',text:msg})];
+    const nx = upcoming()[0];
+    if (nx && parseHash().kind==='home'){
+      const a = el('a',{href:'#ev-'+nx.id}, el('span',{class:'t',text:nx.titolo||'Impegno'}), el('span',{class:'s',text:[nx.tipo, evWhen(nx,true), nx.luogo].filter(Boolean).join(', ')}));
+      nodes.push(el('div',{class:'next'}, el('span',{class:'k',text:'Prossimo impegno'}), a));
+    }
+    $('song').replaceChildren(...nodes); renderList();
+  }
+
+  function renderSong(s, c){
+    const box = $('song');
+    const key = c ? ('sc:'+c.sc.id+'~'+c.n+':'+s.id) : ('song:'+s.id);
+    const changed = key !== currentKey;
+    current = s; ctx = c; currentKey = key;
+    const tracks = tracksOf(s);
+    const loadedHere = pSong && pSong.id === s.id;
+    if (changed){
+      const want = c && c.item && c.item.traccia!=null ? c.item.traccia : 0;
+      viewTrack = tracks[want] ? want : 0;
+      if (tracks.length){
+        if (loadedHere && !autoplayNext){ viewTrack = pTrack; if (c){ pCtx = c; updateNow(); } }
+        else if (autoplayNext || !isPlaying()){ loadTrack(s, c, viewTrack, {play:autoplayNext}); }
+      }
+      autoplayNext = false;
+    }
+    const inPlayer = pSong && pSong.id === s.id;
+    const nodes = [backButton()];
+
+    if (c){
+      const total = brani(c.sc).length;
+      const bar = el('div',{class:'setbar'});
+      const where = el('div',{class:'where'});
+      where.append(el('b',{text:c.sc.nome||'Scaletta'}), document.createTextNode(`, brano ${c.n} di ${total}`));
+      const nav = el('div',{class:'nav'});
+      const prev = el('a',{class:'btn',href:'#sc-'+c.sc.id+'~'+(c.n-1),'aria-label':'Brano precedente',text:'◀'});
+      const next = el('a',{class:'btn',href:'#sc-'+c.sc.id+'~'+(c.n+1),'aria-label':'Brano successivo',text:'▶'});
+      if (c.n<=1){ prev.removeAttribute('href'); prev.setAttribute('aria-disabled','true'); prev.style.opacity='.35'; }
+      if (c.n>=total){ next.removeAttribute('href'); next.setAttribute('aria-disabled','true'); next.style.opacity='.35'; }
+      nav.append(prev,next);
+      bar.append(where, nav);
+      nodes.push(bar);
+    }
+
+    nodes.push(el('h2',{text:s.titolo||s.id}));
+    if (s.sottotitolo) nodes.push(el('p',{class:'sub',text:s.sottotitolo}));
+
+    if (tracks.length){
+      const label = t => { const d = durOf(t); return (t.nome||'Registrazione') + (d!=null ? ', '+fmt(d) : ''); };
+      if (tracks.length > 1){
+        const lab = el('label',{class:'parts-label',for:'trackSel',text:'Traccia da ascoltare'});
+        const sel = el('select',{id:'trackSel',class:'track-sel'});
+        tracks.forEach((t,i)=>{ const o = el('option',{value:String(i),text:label(t)}); if (i===viewTrack) o.selected = true; sel.append(o); });
+        sel.onchange = () => {
+          viewTrack = Number(sel.value);
+          if (pSong && pSong.id === s.id) loadTrack(s, c, viewTrack, {keepPos:true});
+        };
+        nodes.push(lab, sel);
+      } else {
+        nodes.push(el('p',{class:'parts-label',text:'Traccia: '+label(tracks[0])}));
+      }
+      if (!inPlayer && pSong){
+        const t = tracksOf(pSong)[pTrack];
+        const listen = el('button',{type:'button',class:'btn primary',text:'▶ Ascolta questo canto'});
+        listen.onclick = () => { loadTrack(s, c, viewTrack, {play:true}); renderSong(s, c); };
+        nodes.push(el('div',{class:'listen'}, listen, el('span',{class:'s',text:'Ora in ascolto: '+(pSong.titolo||'')+(t&&t.nome?', '+t.nome:'')})));
+      }
+    } else {
+      nodes.push(el('p',{class:'note',text:'Nessuna registrazione per questo canto.'}));
+    }
+    if (c){
+      const cb = el('input',{type:'checkbox',id:'autoAdv'}); cb.checked = autoAdvance;
+      cb.onchange = () => { autoAdvance = cb.checked; try{localStorage.setItem('coro-auto', cb.checked?'1':'0');}catch(e){} };
+      nodes.push(el('label',{class:'auto',for:'autoAdv'}, cb, document.createTextNode('A fine traccia passa al brano successivo')));
+    }
+
+    const pagine = Array.isArray(s.pagine) ? s.pagine : [];
+    if (pagine.length || s.pdf){
+      const head = el('div',{class:'score-head'}, el('h3',{text:'Spartito'}));
+      const tools = el('div',{class:'tools',role:'group','aria-label':'Ingrandimento'});
+      const pagesBox = el('div',{class:'pages'});
+      [[1,'Adatta'],[1.5,'150%'],[2,'200%']].forEach(([z,lbl])=>{
+        const b = el('button',{type:'button','aria-pressed':String(zoom===z),text:lbl});
+        b.onclick = () => { zoom=z; try{localStorage.setItem('coro-zoom',z);}catch(e){} pagesBox.style.setProperty('--zoom',z); tools.querySelectorAll('button[aria-pressed]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); };
+        tools.append(b);
+      });
+      if (s.pdf){
+        const pdfBtn = el('button',{type:'button',text:'PDF','aria-label':'Scarica lo spartito in PDF'});
+        pdfBtn.onclick = () => savePdf(s, pdfBtn);
+        tools.append(pdfBtn);
+      }
+      head.append(tools);
+      nodes.push(head);
+      pagesBox.style.setProperty('--zoom',zoom);
+      pagine.forEach((p,i)=>{
+        const img = el('img',{src:blob(p),alt:`Spartito di ${s.titolo}, pagina ${i+1} di ${pagine.length}`,loading:i?'lazy':'eager'});
+        img.onerror = () => img.replaceWith(el('p',{class:'note',text:`Pagina ${i+1} non disponibile.`}));
+        pagesBox.append(img);
+      });
+      nodes.push(pagesBox);
+    }
+    box.replaceChildren(...nodes);
+    renderList();
+    if (changed) window.scrollTo(0,0);
+  }
+
+  function renderScaletta(sc, keepScroll){
+    leave();
+    const items = brani(sc);
+    const nodes = [backButton()];
+    if (sc.tipo) nodes.push(el('span',{class:'kind',text:sc.tipo}));
+    nodes.push(el('h2',{text:sc.nome||'Scaletta'}));
+    const d = setDuration(sc);
+    const sub = [sc.data ? fmtDate(sc.data) : '', d.any && d.tot ? 'durata '+(d.missing?'circa ':'')+fmtMin(d.tot) : ''].filter(Boolean).join(', ');
+    if (sub) nodes.push(el('p',{class:'sub',text:sub}));
+    if (sc.note) nodes.push(el('p',{class:'setnote',text:sc.note}));
+    const acts = el('div',{class:'row-actions'});
+    const firstAudio = items.findIndex(it => itemTrack(it));
+    if (firstAudio >= 0){
+      const play = el('button',{type:'button',class:'btn primary',text:'▶ Ascolta tutta la scaletta'});
+      play.onclick = () => { autoAdvance = true; try{localStorage.setItem('coro-auto','1');}catch(e){} autoplayNext = true; location.hash = 'sc-'+sc.id+'~'+(firstAudio+1); };
+      acts.append(play);
+    }
+    if (isAdmin) acts.append(el('a',{class:'btn',href:'#sc-'+sc.id+'~edit',text:'Modifica'}));
+    if (acts.childNodes.length) nodes.push(acts);
+    if (!items.length) nodes.push(el('p',{class:'note',text:'Questa scaletta non ha ancora brani.'}));
+    const ol = el('ol',{class:'setlist'});
+    items.forEach((it,i)=>{
+      const s = songById(it.canto);
+      const a = el('a',{href:'#sc-'+sc.id+'~'+(i+1)});
+      if (pCtx && pCtx.sc.id===sc.id && pCtx.n===i+1) a.setAttribute('aria-current','true');
+      a.append(el('span',{class:'num',text:String(i+1)}), el('span',{class:'t',text:s ? (s.titolo||s.id) : '—'}), el('span',{class:'s',text:trackLabel(it)}));
+      ol.append(el('li',{},a));
+    });
+    if (items.length) nodes.push(ol);
+    $('song').replaceChildren(...nodes);
+    if (!keepScroll) window.scrollTo(0,0);
+    renderList();
+  }
+
+  // ---- Editor delle scalette (solo per chi gestisce il sito) ----
+  let editorKey = null;
+  function renderEditor(sc){
+    const key = 'edit:'+(sc ? sc.id : 'nuova');
+    if (editorKey === key && $('song').querySelector('.form')) return;   // non perdere le modifiche in corso
+    leave();
+    editorKey = key;
+    if (!isAdmin){ editorKey=null; return showEmpty('Solo chi gestisce il sito può modificare le scalette.'); }
+    const draft = sc ? JSON.parse(JSON.stringify({nome:sc.nome||'', tipo:sc.tipo||'Prova', data:sc.data||'', note:sc.note||'', brani:brani(sc)})) : {nome:'', tipo:'Prova', data:'', note:'', brani:[]};
+    const nodes = [backButton(), el('h2',{text: sc ? 'Modifica scaletta' : 'Nuova scaletta'})];
+    const form = el('div',{class:'form'});
+    const nome = el('input',{type:'text',value:draft.nome,placeholder:'Es. Concerto di Natale',maxlength:'120'});
+    nome.oninput = () => draft.nome = nome.value;
+    const tipo = el('select',{});
+    ['Prova','Concerto','Altro'].forEach(t=>{ const o=el('option',{value:t,text:t}); if (t===draft.tipo) o.selected=true; tipo.append(o); });
+    tipo.onchange = () => draft.tipo = tipo.value;
+    const data = el('input',{type:'date',value:draft.data});
+    data.oninput = () => draft.data = data.value;
+    const note = el('textarea',{placeholder:'Luogo, orario, indicazioni (facoltativo)'}); note.value = draft.note;
+    note.oninput = () => draft.note = note.value;
+    form.append(el('label',{},document.createTextNode('Nome'),nome), el('div',{class:'two'}, el('label',{},document.createTextNode('Tipo'),tipo), el('label',{},document.createTextNode('Data'),data)), el('label',{},document.createTextNode('Note'),note));
+
+    const itemsBox = el('div',{});
+    form.append(el('div',{}, el('h3',{class:'parts-label',text:'Brani, nell’ordine'}), itemsBox));
+    function drawItems(){
+      const ul = el('ol',{class:'items'});
+      draft.brani.forEach((it,i)=>{
+        const s = songById(it.canto); const tr = tracksOf(s);
+        const li = el('li',{});
+        li.append(el('span',{class:'num',text:String(i+1)}), el('span',{class:'t',text:s ? s.titolo : 'Canto non più nel repertorio'}));
+        const mv = el('div',{class:'mv'});
+        const up = el('button',{type:'button','aria-label':'Sposta su',text:'↑'}); if (i===0) up.disabled = true;
+        const dn = el('button',{type:'button','aria-label':'Sposta giù',text:'↓'}); if (i===draft.brani.length-1) dn.disabled = true;
+        const rm = el('button',{type:'button','aria-label':'Togli dalla scaletta',text:'✕'});
+        up.onclick = () => { [draft.brani[i-1],draft.brani[i]]=[draft.brani[i],draft.brani[i-1]]; drawItems(); };
+        dn.onclick = () => { [draft.brani[i+1],draft.brani[i]]=[draft.brani[i],draft.brani[i+1]]; drawItems(); };
+        rm.onclick = () => { draft.brani.splice(i,1); drawItems(); };
+        mv.append(up,dn,rm); li.append(mv);
+        if (tr.length > 1){
+          const sel = el('select',{'aria-label':'Traccia per '+s.titolo});
+          tr.forEach((t,j)=>{ const d=durOf(t); const o=el('option',{value:String(j),text:(t.nome||('Traccia '+(j+1)))+(d!=null?', '+fmt(d):'')}); if ((it.traccia??0)===j) o.selected=true; sel.append(o); });
+          sel.onchange = () => { it.traccia = Number(sel.value); };
+          li.append(sel);
+        } else {
+          const d = tr.length ? durOf(tr[0]) : null;
+          li.append(el('span',{class:'s',text: tr.length ? (tr[0].nome||'Registrazione')+(d!=null?', '+fmt(d):'') : 'Solo spartito'}));
+        }
+        ul.append(li);
+      });
+      const add = el('div',{class:'add'});
+      const pick = el('select',{'aria-label':'Canto da aggiungere'});
+      pick.append(el('option',{value:'',text:'Aggiungi un canto…'}));
+      songs.forEach(s=>pick.append(el('option',{value:s.id,text:s.titolo||s.id})));
+      const addBtn = el('button',{type:'button',class:'btn',text:'Aggiungi'});
+      const doAdd = () => { if (!pick.value) return; draft.brani.push({canto:pick.value, traccia:0}); drawItems(); };
+      addBtn.onclick = doAdd; pick.onchange = doAdd;
+      add.append(pick, addBtn);
+      itemsBox.replaceChildren(...(draft.brani.length ? [ul] : [el('p',{class:'note',text:'Nessun brano: aggiungili qui sotto.'})]), add);
+    }
+    drawItems();
+
+    const msg = el('p',{class:'err',role:'alert'});
+    const acts = el('div',{class:'row-actions'});
+    const save = el('button',{type:'button',class:'btn primary',text:'Salva scaletta'});
+    save.onclick = async () => {
+      msg.textContent = '';
+      if (!draft.nome.trim()){ msg.textContent = 'Dai un nome alla scaletta.'; nome.focus(); return; }
+      save.disabled = true; save.textContent = 'Salvataggio…';
+      const id = sc ? sc.id : ('s' + Date.now().toString(36) + Math.random().toString(36).slice(2,6));
+      const body = {nome:draft.nome.trim(), tipo:draft.tipo, data:draft.data||'', note:draft.note.trim(), brani:draft.brani.map(b=>({canto:b.canto, traccia:Number(b.traccia)||0}))};
+      try {
+        await db.collection('scalette').doc(id).set(body);
+        editorKey = null;
+        location.hash = 'sc-'+id;
+      } catch(e){
+        save.disabled = false; save.textContent = 'Salva scaletta';
+        msg.textContent = 'Non sono riuscito a salvare. Riprova tra poco.';
+      }
+    };
+    const cancel = el('a',{class:'btn',href: sc ? '#sc-'+sc.id : '#',text:'Annulla'});
+    cancel.onclick = () => { editorKey = null; if (!sc){ setTimeout(()=>{ history.replaceState(null,'',location.pathname+location.search); render(); },0); } };
+    acts.append(save, cancel);
+    if (sc){
+      const del = el('button',{type:'button',class:'btn danger',text:'Elimina'});
+      let armed = false;
+      del.onclick = async () => {
+        if (!armed){ armed = true; del.classList.add('armed'); del.textContent = 'Conferma eliminazione'; setTimeout(()=>{ armed=false; del.classList.remove('armed'); del.textContent='Elimina'; }, 4000); return; }
+        del.disabled = true;
+        try { await db.collection('scalette').doc(sc.id).delete(); editorKey = null; tab='scalette'; history.replaceState(null,'',location.pathname+location.search); render(); }
+        catch(e){ del.disabled = false; msg.textContent = 'Non sono riuscito a eliminare la scaletta.'; }
+      };
+      acts.append(del);
+    }
+    form.append(msg, acts);
+    nodes.push(form);
+    $('song').replaceChildren(...nodes);
+    window.scrollTo(0,0);
+    renderList();
+  }
+
+  // ---- Calendario ----
+  function renderEvento(e){
+    leave();
+    const nodes = [backButton()];
+    if (e.tipo) nodes.push(el('span',{class:'kind',text:e.tipo}));
+    nodes.push(el('h2',{text:e.titolo||'Impegno'}));
+    const facts = el('dl',{class:'facts'});
+    const fact = (k, v) => { if (!v) return; const row = el('div',{}, el('dt',{text:k})); const dd = el('dd',{style:'margin:0'}); dd.append(v); row.append(dd); facts.append(row); };
+    fact('Quando', evWhen(e,true));
+    fact('Dove', e.luogo || '');
+    if (e.scaletta){
+      const sc = scalette.find(x=>x.id===e.scaletta);
+      if (sc) fact('Scaletta', el('a',{href:'#sc-'+sc.id,text:(sc.nome||'Scaletta')+' →'}));
+    }
+    nodes.push(facts);
+    if (e.note) nodes.push(el('p',{class:'setnote',text:e.note}));
+    const acts = el('div',{class:'row-actions'});
+    const ics = el('button',{type:'button',class:'btn',text:'Aggiungi al mio calendario'});
+    ics.onclick = () => saveIcs(e, ics);
+    acts.append(ics);
+    if (isAdmin) acts.append(el('a',{class:'btn',href:'#ev-'+e.id+'~edit',text:'Modifica'}));
+    nodes.push(acts);
+    $('song').replaceChildren(...nodes);
+    window.scrollTo(0,0);
+    renderList();
+  }
+
+  function icsText(e){
+    const esc = t => String(t||'').replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/([,;])/g,'\\$1');
+    const d = (e.data||'').replace(/-/g,'');
+    const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Coro Voci del Baldo//Calendario//IT','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+      'UID:'+e.id+'@coro-voci-del-baldo',
+      'DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'')];
+    if (e.ora){
+      const st = e.ora.replace(':','')+'00';
+      let en;
+      if (e.oraFine && e.oraFine > e.ora) en = e.oraFine.replace(':','')+'00';
+      else { const [h,m] = e.ora.split(':').map(Number); const h2 = Math.min(h+2, 23); en = String(h2).padStart(2,'0')+String(h2===23 && h+2>23 ? 59 : m).padStart(2,'0')+'00'; }
+      lines.push('DTSTART:'+d+'T'+st, 'DTEND:'+d+'T'+en);
+    } else {
+      const [y,m,dd] = e.data.split('-').map(Number); const nx = new Date(y,m-1,dd+1);
+      lines.push('DTSTART;VALUE=DATE:'+d, 'DTEND;VALUE=DATE:'+nx.getFullYear()+String(nx.getMonth()+1).padStart(2,'0')+String(nx.getDate()).padStart(2,'0'));
+    }
+    lines.push('SUMMARY:'+esc((e.tipo && e.tipo!=='Altro' && !(e.titolo||'').toLowerCase().includes(e.tipo.toLowerCase()) ? e.tipo+': ' : '')+(e.titolo||'Impegno del coro')));
+    if (e.luogo) lines.push('LOCATION:'+esc(e.luogo));
+    if (e.note) lines.push('DESCRIPTION:'+esc(e.note));
+    lines.push('END:VEVENT','END:VCALENDAR');
+    return lines.join('\r\n')+'\r\n';
+  }
+  async function saveIcs(e, btn){
+    const label = btn.textContent;
+    const nome = ((e.titolo||'impegno').replace(/[\\/:*?"<>|]+/g,'').trim() || 'impegno') + (e.data ? ' '+e.data : '');
+    try {
+      const data = new Blob([icsText(e)], {type:'text/calendar'});
+      const u = URL.createObjectURL(data); saveFile(u, nome + '.ics'); setTimeout(()=>URL.revokeObjectURL(u), 4000);
+    } catch(err){
+      if (!err || err.code !== 'declined'){ btn.textContent = 'Non disponibile'; setTimeout(()=>{ btn.textContent = label; }, 2500); }
+    }
+  }
+
+  function renderEvEditor(e){
+    const key = 'ev:'+(e ? e.id : 'nuovo');
+    if (editorKey === key && $('song').querySelector('.form')) return;
+    leave();
+    editorKey = key;
+    if (!isAdmin){ editorKey=null; return showEmpty('Solo chi gestisce il sito può modificare il calendario.'); }
+    const draft = e ? {titolo:e.titolo||'', tipo:e.tipo||'Prova', data:e.data||'', ora:e.ora||'', oraFine:e.oraFine||'', luogo:e.luogo||'', note:e.note||'', scaletta:e.scaletta||''}
+                    : {titolo:'', tipo:'Prova', data:'', ora:'', oraFine:'', luogo:'', note:'', scaletta:''};
+    const nodes = [backButton(), el('h2',{text: e ? 'Modifica impegno' : 'Nuovo impegno'})];
+    const form = el('div',{class:'form'});
+    const inp = (k, attrs) => { const i = el('input', attrs); i.value = draft[k]; i.oninput = () => draft[k] = i.value; return i; };
+    const titolo = inp('titolo',{type:'text',placeholder:'Es. Prova generale',maxlength:'120'});
+    const tipo = el('select',{});
+    ['Prova','Concerto','Altro'].forEach(t=>{ const o=el('option',{value:t,text:t}); if (t===draft.tipo) o.selected=true; tipo.append(o); });
+    tipo.onchange = () => draft.tipo = tipo.value;
+    const data = inp('data',{type:'date'});
+    const ora = inp('ora',{type:'time'});
+    const oraFine = inp('oraFine',{type:'time'});
+    const luogo = inp('luogo',{type:'text',placeholder:'Es. Sala prove, Caprino Veronese',maxlength:'160'});
+    const scSel = el('select',{});
+    scSel.append(el('option',{value:'',text:'Nessuna'}));
+    sortScalette(scalette).forEach(sc=>{ const o=el('option',{value:sc.id,text:(sc.nome||'Scaletta')+(sc.data?' ('+sc.data.split('-').reverse().join('/')+')':'')}); if (sc.id===draft.scaletta) o.selected=true; scSel.append(o); });
+    scSel.onchange = () => draft.scaletta = scSel.value;
+    const note = el('textarea',{placeholder:'Indicazioni, abbigliamento, ritrovo (facoltativo)'}); note.value = draft.note;
+    note.oninput = () => draft.note = note.value;
+    const L = (t, c) => el('label',{}, document.createTextNode(t), c);
+    form.append(L('Titolo', titolo), el('div',{class:'two'}, L('Tipo', tipo), L('Data', data)), el('div',{class:'two'}, L('Ora inizio', ora), L('Ora fine (facoltativa)', oraFine)), L('Luogo', luogo), L('Scaletta collegata', scSel), L('Note', note));
+
+    const msg = el('p',{class:'err',role:'alert'});
+    const acts = el('div',{class:'row-actions'});
+    const save = el('button',{type:'button',class:'btn primary',text:'Salva impegno'});
+    save.onclick = async () => {
+      msg.textContent = '';
+      if (!draft.titolo.trim()){ msg.textContent = 'Dai un titolo all’impegno.'; titolo.focus(); return; }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.data)){ msg.textContent = 'Scegli la data.'; data.focus(); return; }
+      save.disabled = true; save.textContent = 'Salvataggio…';
+      const id = e ? e.id : ('e' + Date.now().toString(36) + Math.random().toString(36).slice(2,6));
+      const body = {titolo:draft.titolo.trim(), tipo:draft.tipo, data:draft.data, ora:draft.ora||'', oraFine:draft.oraFine||'', luogo:draft.luogo.trim(), note:draft.note.trim(), scaletta:draft.scaletta||''};
+      try { await db.collection('eventi').doc(id).set(body); editorKey = null; location.hash = 'ev-'+id; }
+      catch(err){ save.disabled = false; save.textContent = 'Salva impegno'; msg.textContent = 'Non sono riuscito a salvare. Riprova tra poco.'; }
+    };
+    const cancel = el('a',{class:'btn',href: e ? '#ev-'+e.id : '#',text:'Annulla'});
+    cancel.onclick = () => { editorKey = null; if (!e){ setTimeout(()=>{ history.replaceState(null,'',location.pathname+location.search); render(); },0); } };
+    acts.append(save, cancel);
+    if (e){
+      const del = el('button',{type:'button',class:'btn danger',text:'Elimina'});
+      let armed = false;
+      del.onclick = async () => {
+        if (!armed){ armed = true; del.classList.add('armed'); del.textContent = 'Conferma eliminazione'; setTimeout(()=>{ armed=false; del.classList.remove('armed'); del.textContent='Elimina'; }, 4000); return; }
+        del.disabled = true;
+        try { await db.collection('eventi').doc(e.id).delete(); editorKey = null; history.replaceState(null,'',location.pathname+location.search); render(); }
+        catch(err){ del.disabled = false; msg.textContent = 'Non sono riuscito a eliminare l’impegno.'; }
+      };
+      acts.append(del);
+    }
+    form.append(msg, acts);
+    nodes.push(form);
+    $('song').replaceChildren(...nodes);
+    window.scrollTo(0,0);
+    renderList();
+  }
+
+  async function savePdf(s, btn){
+    const label = btn.textContent;
+    const nome = (s.titolo||s.id).replace(/[\\/:*?"<>|]+/g,'').trim() || 'spartito';
+    btn.disabled = true; btn.textContent = '…';
+    try {
+      saveFile(blob(s.pdf), nome + '.pdf');
+    } catch(e){
+      if (!e || e.code !== 'declined'){ btn.textContent = 'Non disponibile'; setTimeout(()=>{ btn.textContent = label; btn.disabled = false; }, 2500); return; }
+    }
+    btn.disabled = false; btn.textContent = label;
+  }
+
+  // ---- Lettore ----
+  function loadTrack(song, c, i, opts={}){
+    const t = tracksOf(song)[i]; if (!t) return;
+    const same = pSong && pSong.id === song.id;
+    const wasPlaying = isPlaying();
+    const pos = (opts.keepPos && same) ? audio.currentTime : 0;
+    const oldDur = audio.duration;
+    const play = opts.play != null ? opts.play : (same && wasPlaying);
+    pSong = song; pCtx = c; pTrack = i;
+    clearAB();
+    audio.src = blob(t.asset);
+    audio.playbackRate = Number($('rate').value);
+    audio.addEventListener('loadedmetadata', function once(){
+      audio.removeEventListener('loadedmetadata', once);
+      // Riprende dallo stesso punto solo se le registrazioni hanno durata simile (stesse battute, voce diversa)
+      if (pos && isFinite(oldDur) && Math.abs((audio.duration||0) - oldDur) < 3) audio.currentTime = Math.min(pos, audio.duration);
+      audio.playbackRate = Number($('rate').value);
+    });
+    if (play) audio.play().catch(()=>{});
+    $('player').hidden = false;
+    updateNow();
+    if ('mediaSession' in navigator){
+      try { navigator.mediaSession.metadata = new MediaMetadata({title:song.titolo, artist:t.nome||'', album:'Coro Voci del Baldo'}); } catch(e){}
+    }
+  }
+  function updateNow(){
+    if (!pSong) return;
+    const t = tracksOf(pSong)[pTrack] || {};
+    const a = el('a',{href:hashFor(pSong, pCtx),title:'Apri il canto in ascolto'});
+    a.append(el('b',{text:pSong.titolo}), document.createTextNode(', '+(t.nome||'') + (pCtx ? `  (${pCtx.n}/${brani(pCtx.sc).length})` : '')));
+    const nodes = [a];
+    if (abA != null) nodes.push(el('span',{class:'abinfo',text: abB != null ? `  ⟲ ${fmt(abA)}–${fmt(abB)}` : `  A ${fmt(abA)}`}));
+    $('now').replaceChildren(...nodes);
+  }
+  function setIcon(){
+    const playing = !audio.paused;
+    $('playIcon').innerHTML = playing ? '<path fill="currentColor" d="M6 4h4v16H6zm8 0h4v16h-4z"/>' : '<path fill="currentColor" d="M7 4.5v15l13-7.5z"/>';
+    $('playBtn').setAttribute('aria-label', playing ? 'Pausa' : 'Riproduci');
+  }
+  $('playBtn').onclick = () => audio.paused ? audio.play().catch(()=>{}) : audio.pause();
+  function setLoop(on){
+    audio.loop = on;
+    $('loopBtn').setAttribute('aria-pressed', String(on));
+    $('loopBtn').setAttribute('aria-label', on ? 'Ripetizione attiva' : 'Ripetizione disattivata');
+    try { localStorage.setItem('coro-loop', on ? '1' : '0'); } catch(e){}
+  }
+  let loopOn = false;
+  try { loopOn = localStorage.getItem('coro-loop') === '1'; } catch(e){}
+  setLoop(loopOn);
+  $('loopBtn').onclick = () => setLoop(!audio.loop);
+  $('back5').onclick = () => { audio.currentTime = Math.max(abA!=null && abB!=null ? abA : 0, audio.currentTime-5); };
+  $('fwd5').onclick = () => { audio.currentTime = Math.min(audio.duration||0, audio.currentTime+5); };
+  $('rate').onchange = e => { audio.playbackRate = Number(e.target.value); try{localStorage.setItem('coro-rate',e.target.value);}catch(err){} };
+
+  // ---- Ripetizione di un passaggio (A–B) ----
+  let abA = null, abB = null, abTimer = 0;
+  function clearAB(){ abA = null; abB = null; drawAB(); }
+  function drawAB(){
+    $('abA').setAttribute('aria-pressed', String(abA != null));
+    $('abB').setAttribute('aria-pressed', String(abB != null));
+    $('abA').setAttribute('aria-label', abA != null && abB != null ? 'Annulla la ripetizione del passaggio' : 'Segna l’inizio del passaggio');
+    $('abB').setAttribute('aria-label', abA != null && abB != null ? 'Annulla la ripetizione del passaggio' : 'Segna la fine del passaggio e ripetilo');
+    const band = $('abBand'); const d = audio.duration;
+    if (abA != null && isFinite(d) && d > 0){
+      const end = abB != null ? abB : abA;
+      band.style.left = (abA/d*100)+'%';
+      band.style.width = abB != null ? ((end-abA)/d*100)+'%' : '3px';
+      band.hidden = false;
+    } else band.hidden = true;
+    clearInterval(abTimer);
+    if (abA != null && abB != null) abTimer = setInterval(checkAB, 50);
+    updateNow();
+  }
+  function checkAB(){ if (abA!=null && abB!=null && !audio.paused && audio.currentTime >= abB) audio.currentTime = abA; }
+  $('abA').onclick = () => {
+    if (!audio.getAttribute('src')) return;
+    if (abA != null && abB != null){ clearAB(); return; }
+    abA = audio.currentTime; abB = null; drawAB();
+  };
+  $('abB').onclick = () => {
+    if (!audio.getAttribute('src')) return;
+    if (abA != null && abB != null){ clearAB(); return; }
+    if (abA == null) abA = 0;
+    const t = audio.currentTime;
+    if (t <= abA + 0.5){ $('abB').classList.add('nope'); setTimeout(()=>$('abB').classList.remove('nope'), 600); return; }
+    abB = t; audio.currentTime = abA; drawAB();
+    if (audio.paused) audio.play().catch(()=>{});
+  };
+
+  let seeking = false;
+  $('seek').addEventListener('input', e => { seeking = true; $('cur').textContent = fmt(Number(e.target.value)); });
+  $('seek').addEventListener('change', e => { audio.currentTime = Number(e.target.value); seeking = false; });
+  audio.addEventListener('play', setIcon); audio.addEventListener('pause', setIcon);
+  audio.addEventListener('loadedmetadata', () => { $('seek').max = audio.duration||0; $('dur').textContent = fmt(audio.duration); drawAB(); });
+  audio.addEventListener('timeupdate', () => { if (!seeking){ $('seek').value = audio.currentTime; $('cur').textContent = fmt(audio.currentTime); } });
+  audio.addEventListener('error', () => { if (audio.getAttribute('src')) $('now').textContent = 'Registrazione non disponibile.'; });
+  document.addEventListener('keydown', e => {
+    if (e.code==='Space' && !$('player').hidden && !['INPUT','SELECT','BUTTON','TEXTAREA','A'].includes(e.target.tagName)){ e.preventDefault(); $('playBtn').click(); }
+  });
+
+  // A fine traccia, in una scaletta, passa al brano successivo che ha una registrazione
+  audio.addEventListener('ended', () => {
+    if (!pCtx || !autoAdvance || audio.loop) return;
+    const sc = scalette.find(x=>x.id===pCtx.sc.id) || pCtx.sc;
+    const items = brani(sc);
+    for (let k = pCtx.n; k < items.length; k++){
+      const s2 = songById(items[k].canto); const tr = tracksOf(s2);
+      if (!tr.length) continue;
+      const viewing = currentKey === 'sc:'+pCtx.sc.id+'~'+pCtx.n+':'+pSong.id;
+      if (viewing){ autoplayNext = true; location.hash = 'sc-'+sc.id+'~'+(k+1); }
+      else {
+        const ti = tr[items[k].traccia] ? items[k].traccia : 0;
+        loadTrack(s2, {sc, n:k+1, item:items[k]}, ti, {play:true});
+        const r = parseHash(); if (r.kind==='sc' && r.id===sc.id) renderScaletta(sc, true);
+      }
+      return;
+    }
+  });
+
+  window.addEventListener('hashchange', () => { const k = parseHash().kind; if (k !== 'edit' && k !== 'evedit') editorKey = null; render(); });
+  window.addEventListener('popstate', () => { editorKey = null; render(); });
+
+  // ---- Dati ----
+  fetch('dati.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    songs = (d.canti||[]).map(c => Object.assign({}, c, {tracce:(c.tracce||[]).map(t => Object.assign({asset:t.file}, t))}))
+      .sort((a,b) => String(a.titolo||'').localeCompare(String(b.titolo||''), 'it'));
+    scalette = d.scalette || []; scaletteLoaded = true;
+    eventi = d.eventi || []; eventiLoaded = true;
+    render();
+  }).catch(() => { $('listNote').textContent = 'Non riesco a caricare il repertorio (dati.json). Ricarica la pagina.'; });
+})();
+</script>
+</body>
+</html>
