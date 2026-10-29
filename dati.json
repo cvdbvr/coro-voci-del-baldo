@@ -282,5 +282,17 @@
       "tipo": "Concerto"
     }
   ],
-  "eventi": []
+  "eventi": [
+    {
+      "id": "emvtttp1mcsqc",
+      "titolo": "Concerto Tregnago",
+      "tipo": "Concerto",
+      "data": "2026-11-14",
+      "ora": "20:30",
+      "oraFine": "",
+      "luogo": "Tregnago",
+      "note": "",
+      "scaletta": "concerto-tregnago"
+    }
+  ]
 }
